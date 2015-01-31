@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="konkursApp">
+  <body ng-app="konkursApp" ng:controller="SiteCtrl" ng:class="{'frontpage': frontpage}">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -54,7 +54,7 @@
 </nav>
 
     <!-- Add your site or application content here -->
-    <div class="container">
+    <div ng:class="{'container': !frontpage}">
 
       <div ng-view=""></div>
 
@@ -81,6 +81,7 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/site.js"></script>
         <script src="scripts/controllers/home.js"></script>
         <script src="scripts/controllers/list.js"></script>
         <!-- endbuild -->

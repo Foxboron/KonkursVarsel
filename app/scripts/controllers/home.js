@@ -1,5 +1,6 @@
 'use strict';
 
 angular.module('konkursApp')
-  .controller('HomeCtrl', function () {
+  .controller('HomeCtrl', function ($rootScope) {
+    $rootScope.frontpage = true;
   });
