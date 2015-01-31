@@ -11,6 +11,8 @@ lib-cov
 pids
 logs
 results
+bin/tmp
+
 
 npm-debug.log
 node_modules
@@ -18,3 +20,4 @@ bower_components
 .sass-cache
 .tmp
 .DS_Store
+.ropeproject
