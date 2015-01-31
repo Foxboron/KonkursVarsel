@@ -7,6 +7,10 @@ body {
   font-family: 'Muli', sans-serif;
 }
 
+body.not-frontpage {
+  margin-top: 40pt;
+}
+
 .navbar-default {
     border: 0;
     background-image: url(/images/clouds_cropped.png);
@@ -59,7 +63,16 @@ body {
 }
 
 .footer-text {
-  color: #fff;
+  color: #bbb;
+  text-align: center;
+
+  a {
+    color: #bbb;
+    text-decoration: underline;
+  }
+  a:hover {
+    color: #eee;
+  }
 }
 
 .browsehappy {
