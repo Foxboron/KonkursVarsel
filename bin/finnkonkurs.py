@@ -22,17 +22,22 @@ with open("tmp/enhetsregisteret", newline="") as f:
             if row["avvikling"] == "J":
                 nn["avvikling"] += 1
 
-            add_bedrift = ("INSERT INTO bedrifter "
-                        "(orgnummer, navn, addresse, postnummer, avvikling, konkurs, tvangsavvikling) "
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s)")
-            data_bedrift = (row["orgnr"], row["navn"],
-                            row["forretningsadr"], row["forradrpostnr"],
-                            row["avvikling"], row["konkurs"],
-                            row["tvangsavvikling"])
 
-            cursor.execute(add_bedrift, data_bedrift)
+            if False:
+                pass
+            else:
+                add_bedrift = ("INSERT INTO bedrifter "
+                            "(orgnr, navn, addresse, postnummer, avvikling, konkurs, tvangsavvikling, sektorkode, nkode1, tidligerekonk)"
+                            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+                data_bedrift = (row["orgnr"], row["navn"],
+                                row["forretningsadr"], row["forradrpostnr"],
+                                row["avvikling"], row["konkurs"],
+                                row["tvangsavvikling"], row["sektorkode"],
+                                row["nkode1"], "N")
 
-            cnx.commit()
+                cursor.execute(add_bedrift, data_bedrift)
+
+                cnx.commit()
 
 cursor.close()
 cnx.close()
