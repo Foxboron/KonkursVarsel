@@ -4,12 +4,7 @@ var http = require('http');
 var getEnhet = function (query,callback) {
 	var data ='',
 		json;
-
-	var options = {
-		host: 'http://hotell.difi.no',
-		path:'/api/json/brreg/enhetsregisteret?'
-	};
-
+		
     request = http.get(url + query, function (response) {
 		response.setEncoding('utf8');
 		response.on('data', function (chunk) {
@@ -26,6 +21,8 @@ var getEnhet = function (query,callback) {
 	});
 };
 
+
 exports = module.exports = {
 	'getEnhet':getEnhet,
 };
+

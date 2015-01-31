@@ -8,8 +8,8 @@ var test = function (req, res) {
 
 
 var enhet = function(req, res) {
-	var enhet = req.params.enhet;
-	api.getEnhet(enhet,function (error,result) {
+	var orgnr = req.params.orgnr;
+	api.getEnhet(orgnr,function (error,result) {
 		if(error) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});
 			res.end(error.message);
@@ -20,14 +20,16 @@ var enhet = function(req, res) {
 	});
 };
 
-var user = function (req, res) {
-	database.getUser(function(error,result) {
+var getUser = function (req, res) {
+  	var email = req.user._json.email;
+	database.getUser(email,function(error,result) {
 		if(error) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});
 			res.end(error.message);
 		} else {
 			res.writeHead(200, {'Content-Type': 'application/json'});
-			res.end(JSON.stringify(result));
+			req.session.user = result[0];
+			res.end(JSON.stringify(result[0]));
 		}
 	});
 };
@@ -35,6 +37,36 @@ var user = function (req, res) {
 var addUser = function (req, res) {
 	var user = mock.user;
 	database.addUser(user, function (error,result) {
+		 if(error) {
+		 	res.writeHead(500, {'Content-Type': 'text/plain'});
+		 	res.end(error.message);
+		 } else {
+		 	res.writeHead(200, {'Content-Type': 'application/json'});
+		    res.end(JSON.stringify(result));
+		 }
+	});
+}
+
+var addEnhet = function (req, res) {
+	var orgnr = req.params.orgnr;
+	console.log('---------- SESION------------')
+	console.log(req.session.user);
+	console.log('---------- SESION------------')
+	database.addEnhet(req.session.user.id,orgnr, function (error,result) {
+		if(error) {
+			res.writeHead(500, {'Content-Type': 'text/plain'});
+			res.end(error.message);
+		} else {
+
+			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.end(JSON.stringify(result));
+		}
+	});
+}
+
+var getDbEnhet = function (req, res) {
+	var orgnr = req.params.orgnr;
+	database.getEnhet(orgnr,function (error,result) {
 		if(error) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});
 			res.end(error.message);
@@ -45,10 +77,38 @@ var addUser = function (req, res) {
 	});
 }
 
+var getDbEnheter = function (req, res) {
+	database.getEnheter( function (error,result) {
+		if(error) {
+			res.writeHead(500, {'Content-Type': 'text/plain'});
+			res.end(error.message);
+		} else {
+			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.end(JSON.stringify(result));
+		}
+	});
+}
+
+var getUserEnheter = function (req, res) {
+	var userId = req.session.user.id
+	database.getUserEnheter(userId,function (error,result) {
+		if(error) {
+			res.writeHead(500, {'Content-Type': 'text/plain'});
+			res.end(error.message);
+		} else {
+			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.end(JSON.stringify(result));
+		}
+	});
+}
 
 exports = module.exports = {
 	'test':test,
 	'enhet':enhet,
-	'user':user,
+	'addEnhet':addEnhet,
+	'getUser':getUser,
 	'addUser':addUser,
+	'dbenhet': getDbEnhet,
+	'dbenheter': getDbEnheter,
+	'getUserEnheter':getUserEnheter,
 }
