@@ -1,0 +1,9 @@
+{
+  "name"         : "konkursvarsler",
+  "version"      : "0.0.0",
+  "description"  : "Konkurs varsler",
+  "main"         : "server.js",
+  "author"       : "Someone",
+  "dependencies" : {
+  }
+}
