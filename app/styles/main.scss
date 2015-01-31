@@ -3,13 +3,19 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-body {
+#home-image {
   background-image: url(/images/clouds_cropped.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-color: #464646;
+  height: 100vh;
+}
+
+.custom-jumbo {
+  border: 1px solid red;
+
 }
 
 .browsehappy {
