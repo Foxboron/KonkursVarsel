@@ -3,6 +3,28 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+body {
+  font-family: 'Muli', sans-serif;
+}
+
+body.not-frontpage {
+  margin-top: 40pt;
+}
+
+.navbar-default {
+    border: 0;
+    background-image: url(/images/clouds_cropped.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.navbar-default .navbar-brand {
+  color: white;
+  font-size: 2.5em;
+}
+
 #home-image {
   background-image: url(/images/clouds_cropped.png);
   background-position: center center;
@@ -13,9 +35,44 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
   height: 100vh;
 }
 
-.custom-jumbo {
-  border: 1px solid red;
+#home-image h1 {
+    text-shadow: 1px 1px #000;
+}
 
+#field-animals-footer {
+  background-image: url(/images/field_animals.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #464646;
+  height: 20vh;
+}
+
+.front-page-jumbo {
+  width: 900px;
+  min-height: 300px;
+
+  margin-top: 30vh;
+  margin-left: auto;
+  margin-right: auto;
+
+  //border: 2px solid #eee;
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+}
+
+.footer-text {
+  color: #bbb;
+  text-align: center;
+
+  a {
+    color: #bbb;
+    text-decoration: underline;
+  }
+  a:hover {
+    color: #eee;
+  }
 }
 
 .browsehappy {
