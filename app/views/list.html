@@ -1,0 +1,29 @@
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Søk i organisasjoner" submit-required="true" ng-model="organization" typeahead="o.navn for o in query($viewValue)" typeahead-loading="loadingLocations" typeahead-min-length="3" typeahead-wait-ms="250" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" />
+<i ng-show="loadingLocations">Loading..</i>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Legg til</button>
+      </span>
+    </div><!-- /input-group -->
+
+  </div>
+</div>
+
+<div class="alert alert-info" role="alert" ng:show="orgs.size() == 0">Det er ikke registrert noen organisasjoner.</div>
+
+<table class="table table-stiped" ng:hide="orgs.size() == 0">
+<tr>
+	<th>Orgnr.</th>
+	<th>Navn</th>
+	<th>Status</th>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</table>
