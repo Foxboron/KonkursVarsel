@@ -3,7 +3,7 @@
   <div class="col-md-6 col-md-offset-3">
 
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Organisasjon" submit-required="true" ng-model="organization" typeahead="o.navn for o in query($viewValue)" typeahead-loading="loadingLocations" typeahead-min-length="3" typeahead-wait-ms="250" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" />
+      <input type="text" class="form-control" placeholder="Søk i organisasjoner" submit-required="true" ng-model="organization" typeahead="o.navn for o in query($viewValue)" typeahead-loading="loadingLocations" typeahead-min-length="3" typeahead-wait-ms="250" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" />
 <i ng-show="loadingLocations">Loading..</i>
       <span class="input-group-btn">
         <button class="btn btn-default" type="button">Legg til</button>
