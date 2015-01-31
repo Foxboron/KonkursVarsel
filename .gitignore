@@ -17,3 +17,5 @@ node_modules
 bower_components
 .sass-cache
 .tmp
+
+app/config.js
