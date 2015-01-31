@@ -17,3 +17,4 @@ node_modules
 bower_components
 .sass-cache
 .tmp
+.DS_Store
