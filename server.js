@@ -56,6 +56,7 @@ passport.use(new GitHubStrategy({
       		else {
       			var user = {
       				navn: profile._json.name,
+      				extern_id: 'github:' + profile.id,
       				email: profile._json.email
       			}
       			console.log(user);
@@ -82,14 +83,18 @@ app.get('/logout', function(req,res){
 
 	})
 	req.logout();
-	res.send('Logged out')
+	res.redirect('/');
+});
+
+app.get('/list', function(req,res) {
+	res.redirect("/#/list");
 });
 
 app.get('/auth/github', passport.authenticate('github'));
 
 app.get('/auth/github/callback', 
   passport.authenticate('github', {failureRedirect: '/login' }), function (req,res) {
-  	res.redirect('/api/me');
+  	res.redirect('/#/list');
   });
 
 app.get('/auth/github',

@@ -8,6 +8,15 @@ angular
     'ngTouch',
     'ui.bootstrap'
   ])
+
+  .factory('UserResource', function($resource) {
+        return $resource('/api/me');
+    })
+
+  .factory('OrgResource', function($resource) {
+        return $resource('/api/org/:identifier');
+    })
+
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
