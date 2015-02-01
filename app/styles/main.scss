@@ -35,8 +35,13 @@ body.not-frontpage {
   height: 100vh;
 }
 
-#home-image h1 {
-    text-shadow: 1px 1px #000;
+#home-image span {
+  text-shadow: 1px 1px #000;
+  font-size: 3em;
+}
+
+.call-to-action {
+  margin-top: 30px;
 }
 
 #field-animals-footer {
@@ -56,7 +61,6 @@ body.not-frontpage {
   margin-left: auto;
   margin-right: auto;
 
-  //border: 2px solid #eee;
   border-radius: 20px;
   padding: 20px;
   color: white;
