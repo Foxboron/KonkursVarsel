@@ -33,17 +33,16 @@ def send_mail(orgnr):
     mail = mandrill.Mandrill(api)
     for i in ret:
         print("Sent a mail to "+i+" because of org "+orgnr[0]+"!")
-        if "morten@linderud.pw" in i:
-            query = "SELECT orgnr, navn, addresse, tvangsavvikling, avvikling, konkurs from bedrifter where orgnr=%s;"
-            cursor.execute(query,orgnr)
-            data_ret = cursor.fetchall()[0]
-            status = statuser[data_ret[-3:].index("J")]
-            render = out_mail.render(orgnr=data_ret[0],status=status,navn=data_ret[1],addresse=data_ret[2])
-            message = { "from_email": "autoreply@konkursvarsler.no",
-                        "to":[{"email": "morten@linderud.pw"}],
-                        "subject": "Konkurs varsel",
-                        "html": render}
-            mail.messages.send(message=message, async=True)
+        query = "SELECT orgnr, navn, addresse, tvangsavvikling, avvikling, konkurs from bedrifter where orgnr=%s;"
+        cursor.execute(query,orgnr)
+        data_ret = cursor.fetchall()[0]
+        status = statuser[data_ret[-3:].index("J")]
+        render = out_mail.render(orgnr=data_ret[0],status=status,navn=data_ret[1],addresse=data_ret[2])
+        message = { "from_email": "autoreply@konkursvarsler.no",
+                    "to":[{"email": "morten@linderud.pw"}],
+                    "subject": "Konkurs varsel",
+                    "html": render}
+        mail.messages.send(message=message, async=True)
 
 
 def update_database():
