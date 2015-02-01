@@ -3,7 +3,14 @@
 	<h1>Min oversikt</h1>
   </div>
   <div class="col-md-6" id="query" style="margin-top: 20pt; margin-bottom: 20pt;">
-      <input type="text" class="form-control" placeholder="Søk i organisasjoner for å legge til" submit-required="true" ng-model="organization" typeahead="o.navn + ' (' + o.orgnr + ')' for o in query($viewValue)" typeahead-min-length="3" typeahead-wait-ms="250" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" />
+      <input type="text" class="form-control" placeholder="Søk i organisasjoner for å legge til"
+	submit-required="true"
+	ng-model="organization"
+	typeahead="o.navn + ' (' + o.orgnr + ')' for o in query($viewValue) | limitTo:20"
+	typeahead-min-length="3"
+	typeahead-wait-ms="250"
+	typeahead-editable="false"
+	typeahead-on-select="onSelect($item, $model, $label)" />
 
   </div>
 </div>
@@ -16,7 +23,7 @@
 	<th>Navn</th>
 	<th style="width: 100pt;">Status</th>
 </tr>
-<tr ng:repeat="item in orgs">
+<tr ng:repeat="item in orgs | orderBy:navn">
 	<td ng:bind="item.orgnr"></td>
 	<td ng:bind="item.navn"></td>
 	<td>
