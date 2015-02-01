@@ -43,7 +43,7 @@ app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 passport.use(new GitHubStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
-    callbackURL: "http://localhost:8080/auth/github/callback"
+    callbackURL: config.callback + "auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
