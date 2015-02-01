@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h3 class="modal-title">Rediger bruker</h3>
+</div>
+<div class="modal-body">
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label for="navn" class="col-sm-3 control-label">Navn</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="navn" ng:model="item.navn">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email" class="col-sm-3 control-label">Epost</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" id="email" ng:model="item.email">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-default" ng:click="cancel()">Avbryt</button>
+        <button type="submit" class="btn btn-primary" ng:click="save()">Lagre</button>
+      </div>
+    </div>
+  </form>
+
+</div>
