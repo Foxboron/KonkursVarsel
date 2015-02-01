@@ -43,7 +43,7 @@ app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 passport.use(new GitHubStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
-    callbackURL: "http://localhost:8080/auth/github/callback"
+    callbackURL: config.callback + "auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -83,14 +83,14 @@ app.get('/logout', function(req,res){
 
 	})
 	req.logout();
-	res.send('Logged out')
+	res.redirect('/');
 });
 
 app.get('/auth/github', passport.authenticate('github'));
 
 app.get('/auth/github/callback', 
   passport.authenticate('github', {failureRedirect: '/login' }), function (req,res) {
-  	res.redirect('/api/me');
+  	res.redirect('/#/list');
   });
 
 app.get('/auth/github',
