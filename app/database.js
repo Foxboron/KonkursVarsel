@@ -1,4 +1,5 @@
 var mysql      = require('mysql');
+var async = require('async');
 var api = require('./api');
 var connection = mysql.createConnection({
   host     : '188.166.48.220',
@@ -39,24 +40,23 @@ var getUser = function (exId,callback) {
 }
 
 var addUser = function (user,callback) {
-		getUser(user.extern_id,function (error, result) {
+		getUser(user.extern_id, function (error, result) {
 			if(error){
 				callback(error)
 			}
 			else {
 				console.log(result);
 				if(result.length > 0) {
-					callback(null,{error:'user already exists'});
+					callback(null,result[0]);
 				}
 				else {
-				var query = connection.query('INSERT INTO brukere SET ?',user, function (err, res) {
+				var query = connection.query('INSERT INTO brukere SET ? ',user, function (err, res) {
 					if(err){
 						callback(err);
 					}
 					else {
 						callback(null,res);
-				}
-		
+				}		
 	});
 				}
 			}
@@ -64,23 +64,21 @@ var addUser = function (user,callback) {
 } 
  
  var addEnhet = function (userId,orgnr,callback) {
- 		var enhet; 
- 		getEnhet(orgnr, function (error, result){
- 			if(error){
- 				callback(error);
- 			}
- 			else	
- 			{
- 				enhet = result[0];
- 				if(typeof enhet === 'undefined' || enhet.orgnr !== orgnr) {
- 					console.log('GO');
- 					console.log(enhet);
- 				api.getEnhet(orgnr,function (err,res) {
+ 		async.series([
+ 			// 	getEnhet(orgnr,function (error,result) {
+ 			// 	if(error){
+ 			// 	callback(error);
+ 			// }
+ 			// else {
+ 			// 	enhet = result[0]
+ 			// }
+ 			// }),
+ 			api.getEnhet(orgnr,function (err,res) {
  					if(err) {
  						callback(err);
  					}
  					else {
- 						enhet = res.entries[0];
+ 						var enhet = res.entries[0];
  						var query = connection.query("INSERT INTO bedrifter SET ?", { 
  						orgnr:enhet.orgnr, 
  						navn:enhet.navn, 
@@ -93,27 +91,27 @@ var addUser = function (user,callback) {
  						nkode1:enhet.nkode1,
  						tidligerekonk:'N',
  						sistoppdatert:'NULL'
- 						}, function (err, res) {
-						});	
- 					}
- 				});
- 					}
- 				else {
- 					
- 				}
-
-			}
-			connection.query('INSERT INTO subs SET ?',{orgnr_id:orgnr,bruker_id:userId}, function(err,res){
-							if(err){
-								callback(err);
-							}
+ 						}, function (errr) {
 						});
-		callback(null,enhet);
- 		});
+ 					}
+ 				}),
+ 			connection.query('INSERT INTO subs SET ?',{orgnr_id:orgnr,bruker_id:userId}, function(er){							
+						}),
+ 				getEnhet(orgnr,function (error,result) {
+ 				if(error){
+ 				callback(error);
+ 			}
+ 			else {
+ 				console.log(result[0]);
+ 				callback(null,result);
+ 			}
+ 			})
+ 			]);
+		
  	}
 
  var getEnhet = function (orgnr,callback) {
- 	 connection.query('SELECT * FROM bedrifter WHERE  orgnr = ?', orgnr, function (err,res) {
+ 	 connection.query('SELECT * FROM bedrifter WHERE orgnr = ?', orgnr, function (err,res) {
  	 	if(err){
  	 		callback(err);
  	 	}
