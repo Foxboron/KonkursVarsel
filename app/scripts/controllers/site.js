@@ -2,8 +2,8 @@
 
 angular.module('konkursApp')
   .controller('SiteCtrl', function ($rootScope, UserResource) {
-    $rootScope.user = UserResource.get();
-    if ($rootScope.user.navn == undefined) {
-      $rootScope.user = null;
-    }
+    $rootScope.user = UserResource.get({}, function() {
+      if ($rootScope.user.error != undefined)
+        $rootScope.user = null;
+    });
   });
