@@ -21,8 +21,8 @@ var getEnhet = function(req, res) {
 };
 
 var getUser = function (req, res) {
-  	var email = req.user._json.email;
-	database.getUser(email,function(error,result) {
+  	var exId = 'github:' + req.user._json.id;
+	database.getUser(exId,function(error,result) {
 		if(error) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});
 			res.end(error.message);
@@ -86,7 +86,7 @@ var getDbEnheter = function (req, res) {
 }
 
 var getUserEnheter = function (req, res) {
-	var userId = req.session.user.id
+	var userId = req.session.user.id;
 	database.getUserEnheter(userId,function (error,result) {
 		if(error) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});

@@ -27,8 +27,8 @@ var getUsers = function (callback) {
 });
 }
 
-var getUser = function (email,callback) {
-	connection.query('SELECT * FROM brukere WHERE email = ?', email, function(err, rows) {
+var getUser = function (exId,callback) {
+	connection.query('SELECT * FROM brukere WHERE extern_id = ?', exId, function(err, rows) {
 		if(err) {
 			callback(err);
 		} 
@@ -39,7 +39,7 @@ var getUser = function (email,callback) {
 }
 
 var addUser = function (user,callback) {
-		getUser(user.email,function (error, result) {
+		getUser(user.extern_id,function (error, result) {
 			if(error){
 				callback(error)
 			}
