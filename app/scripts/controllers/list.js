@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('konkursApp')
-  .controller('ListCtrl', function ($rootScope, $scope, $http) {
+  .controller('ListCtrl', function ($rootScope, $scope, $http, OrgResource) {
     $rootScope.frontpage = false;
 
     $scope.orgs = [];
@@ -18,9 +18,10 @@ angular.module('konkursApp')
     };
 
     $scope.onSelect = function ($item, $model, $label) {
-      $scope.$item = $item;
       $scope.organization = "";
 
-      alert($item.orgnr);
+      var org = OrgResource.get({identifier: $item.orgnr}, function() {
+        
+      });
     };
   });
