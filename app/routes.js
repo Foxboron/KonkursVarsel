@@ -53,7 +53,6 @@ var addEnhet = function (req, res) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});
 			res.end(error.message);
 		} else {
-
 			res.writeHead(200, {'Content-Type': 'application/json'});
 			res.end(JSON.stringify(result));
 		}

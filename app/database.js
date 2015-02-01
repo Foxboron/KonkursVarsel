@@ -85,10 +85,8 @@ var addUser = function (user,callback) {
  						nkode1:enhet.nkode1,
  						tidligerekonk:'N',
  						sistoppdatert:'NULL'
- 						}, function (errr,ress) {
- 							if(errr){
- 								callback(errr);
- 							}
+ 						}, function (errr) {
+ 							 
 						});
  					}
  					callback(null,'done');
@@ -96,23 +94,16 @@ var addUser = function (user,callback) {
  			 },
  			
  			two: function (callback) {
- 			connection.query('INSERT INTO subs SET ?',{orgnr_id:orgnr,bruker_id:userId}, function(er,re){	
- 						if(er){
- 							callback(er);
- 						}	
- 						else {
- 							callback(re);
- 						}										
+ 			connection.query('INSERT INTO subs SET ?',{orgnr_id:orgnr,bruker_id:userId}, function(er,re){										
 						});
+ 				callback(null,'done');
  			},
-
  			three: function (callback) {
-
 
  			getEnhet(orgnr,function (error,result) {
  				if(error){
  			    console.log('Error');
- 				callback(error);
+ 					callback(error);
  				}
  				else {
  					callback(null,result[0]);
@@ -121,8 +112,7 @@ var addUser = function (user,callback) {
  			},
  			},
  			function (error, results){
- 				console.log(results);
- 				callback(results);
+ 				callback(null,results.three);
  			});
  		}
 
