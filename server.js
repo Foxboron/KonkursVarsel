@@ -64,9 +64,14 @@ app.get('/login', function(req, res){
   res.send('<a href="/auth/github">Login with GitHub</a>');
 });
 
-// Redirect the user to the OAuth 2.0 provider for authentication.  When
-// complete, the provider will redirect the user back to the application at
-//     /auth/provider/callback
+app.get('/logout', function(req,res){
+	req.session.destroy(function(err){
+
+	})
+	req.logout();
+	res.send('Logged out')
+});
+
 app.get('/auth/github', passport.authenticate('github'));
 
 app.get('/auth/github/callback', 
@@ -78,7 +83,7 @@ app.get('/auth/github',
   passport.authenticate('github', { scope: 'read_stream' })
 );
 
-//app.get('/api/enhet/:orgnr', routes.enhet);
+app.get('/api/enhet/:orgnr',ensureAuthenticated, routes.getEnhet);
 
 app.get('/api/me', ensureAuthenticated,routes.getUser);
 //app.get('/api/user',routes.user);
@@ -86,7 +91,7 @@ app.get('/api/me', ensureAuthenticated,routes.getUser);
 //app.get('/api/dbenhet', routes.dbenheter);
 app.get('/api/dbenhet/:orgnr',ensureAuthenticated, routes.dbenhet);
 
-app.post('/api/me',ensureAuthenticated,routes.addUser);
+app.post('/api/me',routes.addUser);
 app.get('/api/org/:orgnr',ensureAuthenticated,routes.addEnhet);
 app.get('/api/org',ensureAuthenticated,routes.getUserEnheter);
 
@@ -95,9 +100,8 @@ console.log("App listening to port 8080");
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { 
-  	console.log(req.session.name);
   	return next(); 
   }
-  // CHange to not logged inn.
-  res.redirect('/login')
+  res.send({error:'Not logged in.'});
+  //res.redirect('/login')
 }

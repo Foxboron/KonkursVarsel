@@ -7,7 +7,7 @@ var test = function (req, res) {
 }
 
 
-var enhet = function(req, res) {
+var getEnhet = function(req, res) {
 	var orgnr = req.params.orgnr;
 	api.getEnhet(orgnr,function (error,result) {
 		if(error) {
@@ -49,9 +49,6 @@ var addUser = function (req, res) {
 
 var addEnhet = function (req, res) {
 	var orgnr = req.params.orgnr;
-	console.log('---------- SESION------------')
-	console.log(req.session.user);
-	console.log('---------- SESION------------')
 	database.addEnhet(req.session.user.id,orgnr, function (error,result) {
 		if(error) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});
@@ -104,7 +101,7 @@ var getUserEnheter = function (req, res) {
 
 exports = module.exports = {
 	'test':test,
-	'enhet':enhet,
+	'getEnhet':getEnhet,
 	'addEnhet':addEnhet,
 	'getUser':getUser,
 	'addUser':addUser,

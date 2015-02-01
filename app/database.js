@@ -39,14 +39,31 @@ var getUser = function (email,callback) {
 }
 
 var addUser = function (user,callback) {
-	var query = connection.query('INSERT INTO brukere SET ?',user, function (err, res) {
-		if(err){
-			callback(err);
-		}
-		else {
-			console.log(query.sql)
-			callback(null,res);
-		}
+	console.log(user);
+		getUser(user.email,function (error, result) {
+			if(error){
+				callback(error)
+
+			}
+			else {
+				console.log(result);
+				if(result.length > 0) {
+					callback(null,{error:'user already exists'});
+				}
+				else {
+
+
+				var query = connection.query('INSERT INTO brukere SET ?',user, function (err, res) {
+					if(err){
+						callback(err);
+					}
+					else {
+						callback(null,res);
+				}
+		
+	});
+				}
+			}
 	});
 } 
  
@@ -123,14 +140,6 @@ var addUser = function (user,callback) {
 
  var getUserEnheter = function(userId,callback) {
  	console.log('userId: ' + userId);
- 	// connection.query('SELECT * FROM bedrifter', function (err,res) {
- 	//  	if(err){
- 	//  		callback(err);
- 	//  	}
- 	//  	else {
- 	//  		callback(null,res);
- 	//  	}
- 	//  });
  	connection.query('SELECT * FROM subs s JOIN bedrifter b ON s.orgnr_id = b.orgnr WHERE s.bruker_id = ?', userId,function (err,res) {
  			if(err){
  	 		callback(err);
