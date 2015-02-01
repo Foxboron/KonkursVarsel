@@ -1,10 +1,11 @@
 var mysql      = require('mysql');
 var async = require('async');
 var api = require('./api');
+var config = require('./app/config');
 var connection = mysql.createConnection({
-  host     : '188.166.48.220',
-  user     : 'konkurs',
-  password : 'abcdef1234',
+  host     : config.dbHost,
+  user     : config.dbUser,
+  password : config.dbPassword,
   database: 'konkurs'
 });
 
