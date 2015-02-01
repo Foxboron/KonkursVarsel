@@ -80,6 +80,10 @@ app.get('/logout', function(req,res){
 	res.redirect('/');
 });
 
+app.get('/list', function(req,res) {
+	res.redirect("/#/list");
+});
+
 app.get('/auth/github', passport.authenticate('github'));
 
 app.get('/auth/github/callback', 
