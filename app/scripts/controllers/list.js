@@ -1,10 +1,15 @@
 'use strict';
 
 angular.module('konkursApp')
-  .controller('ListCtrl', function ($rootScope, $scope, $http, OrgResource) {
+  .controller('ListCtrl', function ($rootScope, $scope, $http, OrgResource, $modal) {
     $rootScope.frontpage = false;
 
-    $scope.orgs = [];
+    if ($rootScope.user == null) {
+      $modal.open({ templateUrl: 'views/signinModal.html', controller: 'SigninModalCtrl', resolve: { item: function () { return {message: "Logg inn for å fortsette", redirect: "/auth/github"}; }} });
+      return;
+    }
+
+    $scope.orgs = OrgResource.query();
 
     $scope.query = function (val) {
       return $http.get('http://hotell.difi.no/api/json/brreg/enhetsregisteret', {
@@ -12,7 +17,6 @@ angular.module('konkursApp')
           query: val
         }
       }).then(function(response){
-        $scope.res = response.data;
         return response.data.entries;
       });
     };
@@ -21,6 +25,7 @@ angular.module('konkursApp')
       $scope.organization = "";
 
       var org = OrgResource.get({identifier: $item.orgnr}, function() {
+        $scope.orgs.push(org);
         
       });
     };
