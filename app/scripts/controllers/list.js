@@ -11,6 +11,7 @@ angular.module('konkursApp')
 
     $scope.updateOrgs = function() {
       $scope.orgs = OrgResource.query();
+      $scope.orgs.sort(function (a,b) { return a.navn.localeCompare(b.navn, 'nb'); });
     }
     $scope.updateOrgs();
 
@@ -28,10 +29,8 @@ angular.module('konkursApp')
       $scope.organization = "";
 
       var org = OrgResource.get({identifier: $item.orgnr}, function() {
-        // $scope.orgs.push(org);
-        setTimeout(function() { $scope.updateOrgs(); }, 500);
-      }, function() {
-        setTimeout(function() { $scope.updateOrgs(); }, 500);
+        $scope.orgs.push(org);
+        $scope.orgs.sort(function (a,b) { return a.navn.localeCompare(b.navn, 'nb'); });
       });
     };
   });
