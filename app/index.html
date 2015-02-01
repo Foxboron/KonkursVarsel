@@ -47,6 +47,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span ng:bind="user.navn"></span> <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
+            <li><a href="#" ng:click="editUser()">Rediger bruker</a></li>
+            <li class="divider"></li>
             <li><a href="/logout" target="_top">Logg ut</a></li>
           </ul>
         </li>
@@ -88,6 +90,7 @@
         <script src="scripts/controllers/home.js"></script>
         <script src="scripts/controllers/list.js"></script>
         <script src="scripts/controllers/signinModal.js"></script>
+        <script src="scripts/controllers/userModal.js"></script>
         <!-- endbuild -->
 </body>
 </html>
