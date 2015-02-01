@@ -9,7 +9,10 @@ angular.module('konkursApp')
       return;
     }
 
-    $scope.orgs = OrgResource.query();
+    $scope.updateOrgs = function() {
+      $scope.orgs = OrgResource.query();
+    }
+    $scope.updateOrgs();
 
     $scope.query = function (val) {
       return $http.get('http://hotell.difi.no/api/json/brreg/enhetsregisteret', {
@@ -25,8 +28,10 @@ angular.module('konkursApp')
       $scope.organization = "";
 
       var org = OrgResource.get({identifier: $item.orgnr}, function() {
-        $scope.orgs.push(org);
-        
+        // $scope.orgs.push(org);
+        setTimeout(function() { $scope.updateOrgs(); }, 500);
+      }, function() {
+        setTimeout(function() { $scope.updateOrgs(); }, 500);
       });
     };
   });
