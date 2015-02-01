@@ -33,4 +33,9 @@ angular.module('konkursApp')
         $scope.orgs.sort(function (a,b) { return a.navn.localeCompare(b.navn, 'nb'); });
       });
     };
+
+    $scope.delete = function (item) {
+      OrgResource.delete({identifier: item.orgnr});
+      $scope.updateOrgs();
+    };
   });

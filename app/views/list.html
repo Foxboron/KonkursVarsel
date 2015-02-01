@@ -22,6 +22,7 @@
 	<th style="width: 80pt;">Orgnr.</th>
 	<th>Navn</th>
 	<th style="width: 100pt;">Status</th>
+	<th style="width: 60pt;">&nbsp;</th>
 </tr>
 <tr ng:repeat="item in orgs | orderBy:navn">
 	<td ng:bind="item.orgnr"></td>
@@ -34,5 +35,6 @@
 			<span ng:show="item.avvikling == 'N' && item.tvangsavvikling == 'N'">Aktiv</span>
 		</span>
 	</td>
+	<td><a href="#" ng:click="delete(item)">Slett</td>
 </tr>
 </table>
