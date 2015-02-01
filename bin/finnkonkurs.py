@@ -1,11 +1,22 @@
 import csv
 import time
 import mysql.connector
+import mandrill
+import config
+from jinja2 import Environment, FileSystemLoader, meta, Template
+
+load = FileSystemLoader('.')
+env = Environment(loader=load)
+
+temp = open("email.html").read()
+out_mail = Template(temp)
 
 
 nn = {"konkurs": 0,
       "tvangsavvikling": 0,
       "avvikling": 0}
+
+statuser = ["tvansavvikling","avvikling","konkurs"]
 
 cnx = mysql.connector.connect(user='konkurs', database='konkurs',
                               password="abcdef1234",
@@ -13,7 +24,27 @@ cnx = mysql.connector.connect(user='konkurs', database='konkurs',
 cursor = cnx.cursor()
 
 
-"SELECT email from brukere JOIN subs ON subs.bruker_id=brukere.id WHERE subs.orgnr_id=\"999290345\";"
+def send_mail(orgnr):
+    orgnr = (orgnr,)
+    query = "SELECT email from brukere JOIN subs ON subs.bruker_id=brukere.id WHERE subs.orgnr_id=%s;"
+    cursor.execute(query, orgnr)
+    ret = [i[0] for i in cursor.fetchall() if i[0]]
+    api = config.api
+    mail = mandrill.Mandrill(api)
+    for i in ret:
+        if "morten@linderud.pw" in i:
+            query = "SELECT orgnr, navn, addresse, tvangsavvikling, avvikling, konkurs from bedrifter where orgnr=%s;"
+            cursor.execute(query,orgnr)
+            data_ret = cursor.fetchall()[0]
+            status = statuser[data_ret[-3:].index("J")]
+            render = out_mail.render(orgnr=data_ret[0],status=status,navn=data_ret[1],addresse=data_ret[2])
+            message = { "from_email": "autoreply@konkursvarsler.no",
+                        "to":[{"email": "morten@linderud.pw"}],
+                        "subject": "Konkurs varsel",
+                        "html": render}
+            print(render)
+            mail.messages.send(message=message, async=True)
+
 
 def update_database():
     with open("tmp/enhetsregisteret", newline="") as f:
@@ -46,6 +77,7 @@ def update_database():
                         now = time.strftime('%Y-%m-%d %H:%M:%S')
                         data_bedrift = (now,"J",row["orgnr"],)
                         cursor.execute(update_bedrift,data_bedrift)
+                        send_mail(row["orgnr"])
 
 
                 else:
@@ -58,6 +90,7 @@ def update_database():
                                     row["avvikling"], row["konkurs"],
                                     row["tvangsavvikling"], row["sektorkode"],
                                     row["nkode1"], "N", now,))
+                    send_mail(row["orgnr"])
 
 
         cursor.executemany(add_bedrift, data_bedriftmany)

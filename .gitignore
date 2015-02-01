@@ -22,3 +22,4 @@ bower_components
 app/config.js
 .DS_Store
 .ropeproject
+__pycache__
