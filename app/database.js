@@ -103,7 +103,7 @@ var addUser = function (user,callback) {
  			}
  			else {
  				console.log(result[0]);
- 				callback(null,result);
+ 				callback(null,result[0]);
  			}
  			})
  			]);
