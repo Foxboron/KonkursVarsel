@@ -117,7 +117,8 @@ var addUser = function (user,callback) {
  		}
 
 var deleteUserEnhet = function(userId, orgnr, callback){
-	connection.query('DELETE * FROM subs WHERE bruker_id = ? and orgnr_id = ? ', userId,orgnr, function (err,res){
+	console.log('userId: ' + userId + ' orgnr: ' + orgnr);
+	connection.query('DELETE FROM subs WHERE bruker_id = ' + mysql.escape(userId) +' and orgnr_id = ' + mysql.escape(orgnr) , function (err,res){
 		if(err){
 			callback(err);
 		}
