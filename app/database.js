@@ -134,7 +134,7 @@ var addUser = function (user,callback) {
 
  var getUserEnheter = function(userId,callback) {
  	console.log('userId: ' + userId);
- 	connection.query('SELECT * FROM subs s JOIN bedrifter b ON s.orgnr_id = b.orgnr WHERE s.bruker_id = ?', userId,function (err,res) {
+ 	connection.query('SELECT * FROM subs s JOIN bedrifter b ON s.orgnr_id = b.orgnr WHERE s.bruker_id = ? ORDER BY b.navn', userId,function (err,res) {
  			if(err){
  	 		callback(err);
  	 	}
