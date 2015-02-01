@@ -64,18 +64,12 @@ var addUser = function (user,callback) {
 } 
  
  var addEnhet = function (userId,orgnr,callback) {
- 		async.series([
- 			// 	getEnhet(orgnr,function (error,result) {
- 			// 	if(error){
- 			// 	callback(error);
- 			// }
- 			// else {
- 			// 	enhet = result[0]
- 			// }
- 			// }),
- 			api.getEnhet(orgnr,function (err,res) {
+ 		console.log('orgnr: ' + orgnr)
+ 		async.series({
+ 			one: function(callback) {
+ 			 api.getEnhet(orgnr,function (err,res) {
  					if(err) {
- 						callback(err);
+ 						console.log(err)
  					}
  					else {
  						var enhet = res.entries[0];
@@ -91,24 +85,57 @@ var addUser = function (user,callback) {
  						nkode1:enhet.nkode1,
  						tidligerekonk:'N',
  						sistoppdatert:'NULL'
- 						}, function (errr) {
+ 						}, function (errr,ress) {
+ 							if(errr){
+ 								callback(errr);
+ 							}
 						});
  					}
- 				}),
- 			connection.query('INSERT INTO subs SET ?',{orgnr_id:orgnr,bruker_id:userId}, function(er){							
-						}),
- 				getEnhet(orgnr,function (error,result) {
+ 					callback(null,'done');
+ 				});
+ 			 },
+ 			
+ 			two: function (callback) {
+ 			connection.query('INSERT INTO subs SET ?',{orgnr_id:orgnr,bruker_id:userId}, function(er,re){	
+ 						if(er){
+ 							callback(er);
+ 						}	
+ 						else {
+ 							callback(re);
+ 						}										
+						});
+ 			},
+
+ 			three: function (callback) {
+
+
+ 			getEnhet(orgnr,function (error,result) {
  				if(error){
+ 			    console.log('Error');
  				callback(error);
- 			}
- 			else {
- 				console.log(result[0]);
- 				callback(null,result[0]);
- 			}
- 			})
- 			]);
-		
- 	}
+ 				}
+ 				else {
+ 					callback(null,result[0]);
+ 				}
+ 				});
+ 			},
+ 			},
+ 			function (error, results){
+ 				console.log(results);
+ 				callback(results);
+ 			});
+ 		}
+
+var deleteEnhet = function(userId, orgnr, callback){
+	connection.query('DELETE * FROM subs WHERE bruker_id = ? and orgnr_id = ? ', userId,orgnr, function (err,res){
+		if(err){
+			callback(err);
+		}
+		else {
+			callback(null,res);
+		}
+	});
+}
 
  var getEnhet = function (orgnr,callback) {
  	 connection.query('SELECT * FROM bedrifter WHERE orgnr = ?', orgnr, function (err,res) {
