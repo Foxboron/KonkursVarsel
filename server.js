@@ -39,6 +39,7 @@ app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
   app.use(passport.initialize());
   app.use(passport.session());
 
+
 passport.use(new GitHubStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
@@ -51,6 +52,18 @@ passport.use(new GitHubStrategy({
       database.getUser(profile._json.email,function(err,res){
       		if(err){
       			console.log(err);
+      		}
+      		else {
+      			var user = {
+      				navn: profile._json.name,
+      				email: profile._json.email
+      			}
+      			console.log(user);
+      			database.addUser(user,function(error){
+      				if(error){
+      					console.log(error);
+      				}
+      		});
       		}
       });
       return done(null, profile);
@@ -91,7 +104,7 @@ app.get('/api/me', ensureAuthenticated,routes.getUser);
 //app.get('/api/dbenhet', routes.dbenheter);
 app.get('/api/dbenhet/:orgnr',ensureAuthenticated, routes.dbenhet);
 
-app.post('/api/me',routes.addUser);
+//app.post('/api/me',routes.addUser);
 app.get('/api/org/:orgnr',ensureAuthenticated,routes.addEnhet);
 app.get('/api/org',ensureAuthenticated,routes.getUserEnheter);
 

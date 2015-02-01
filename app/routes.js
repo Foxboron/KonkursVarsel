@@ -35,7 +35,6 @@ var getUser = function (req, res) {
 };
 
 var addUser = function (req, res) {
-	var user = mock.user;
 	database.addUser(user, function (error,result) {
 		 if(error) {
 		 	res.writeHead(500, {'Content-Type': 'text/plain'});

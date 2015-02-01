@@ -39,11 +39,9 @@ var getUser = function (email,callback) {
 }
 
 var addUser = function (user,callback) {
-	console.log(user);
 		getUser(user.email,function (error, result) {
 			if(error){
 				callback(error)
-
 			}
 			else {
 				console.log(result);
@@ -51,8 +49,6 @@ var addUser = function (user,callback) {
 					callback(null,{error:'user already exists'});
 				}
 				else {
-
-
 				var query = connection.query('INSERT INTO brukere SET ?',user, function (err, res) {
 					if(err){
 						callback(err);
