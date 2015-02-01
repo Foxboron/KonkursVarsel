@@ -18,10 +18,11 @@ DROP TABLE IF EXISTS `brukere`;
 CREATE TABLE `brukere` (
   `navn` varchar(45) NOT NULL,
   `hash` varchar(45) DEFAULT NULL,
-  `id` int(1) NOT NULL,
-  `email` varchar(60) NOT NULL,
+  `id` int(1) NOT NULL AUTO_INCREMENT,
+  `email` varchar(60) DEFAULT NULL,
+  `extern_id` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `subs`;
 CREATE TABLE `subs` (
@@ -30,17 +31,6 @@ CREATE TABLE `subs` (
   PRIMARY KEY (`bruker_id`,`orgnr_id`),
   KEY `okey` (`bruker_id`) USING BTREE,
   KEY `orgnr_id` (`orgnr_id`) USING BTREE,
-  CONSTRAINT `subs_ibfk_2` FOREIGN KEY (`orgnr_id`) REFERENCES `bedrifter` (`orgnr`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `subs_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `brukere` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `subs_ibfk_2` FOREIGN KEY (`orgnr_id`) REFERENCES `bedrifter` (`orgnr`) ON DELETE CASCADE,
+  CONSTRAINT `subs_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `brukere` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
-DROP TABLE IF EXISTS `test`;
-CREATE TABLE `test` (
-  `bruker_id` int(1) NOT NULL,
-  `orgnr_id` varchar(64) NOT NULL,
-  PRIMARY KEY (`bruker_id`,`orgnr_id`),
-  KEY `okey` (`bruker_id`),
-  KEY `orgnr_id` (`orgnr_id`),
-  CONSTRAINT `test_ibfk_1` FOREIGN KEY (`bruker_id`) REFERENCES `brukere` (`id`),
-  CONSTRAINT `test_ibfk_2` FOREIGN KEY (`orgnr_id`) REFERENCES `bedrifter` (`orgnr`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;

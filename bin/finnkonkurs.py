@@ -32,6 +32,7 @@ def send_mail(orgnr):
     api = config.api
     mail = mandrill.Mandrill(api)
     for i in ret:
+        print("Sent a mail to "+i+" because of org "+orgnr[0]+"!")
         if "morten@linderud.pw" in i:
             query = "SELECT orgnr, navn, addresse, tvangsavvikling, avvikling, konkurs from bedrifter where orgnr=%s;"
             cursor.execute(query,orgnr)
@@ -42,7 +43,6 @@ def send_mail(orgnr):
                         "to":[{"email": "morten@linderud.pw"}],
                         "subject": "Konkurs varsel",
                         "html": render}
-            print(render)
             mail.messages.send(message=message, async=True)
 
 
