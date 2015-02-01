@@ -43,17 +43,13 @@ app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 passport.use(new GitHubStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
-    callbackURL: config.callback + "auth/github/callback"
+    callbackURL: config.callback + "/auth/github/callback"
+    //callbackURL: "http://localhost:8080/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
       //console.log(profile);
-      database.getUser(profile._json.email,function(err,res){
-      		if(err){
-      			console.log(err);
-      		}
-      		else {
       			var user = {
       				navn: profile._json.name,
       				extern_id: 'github:' + profile.id,
@@ -65,8 +61,6 @@ passport.use(new GitHubStrategy({
       					console.log(error);
       				}
       		});
-      		}
-      });
       return done(null, profile);
     });
   }
