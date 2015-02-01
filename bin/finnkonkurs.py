@@ -79,17 +79,17 @@ def update_database():
                         send_mail(row["orgnr"])
 
 
-                else:
-                    add_bedrift = ("INSERT INTO bedrifter "
-                                "(orgnr, navn, addresse, postnummer, avvikling, konkurs, tvangsavvikling, sektorkode, nkode1, tidligerekonk, sistoppdatert)"
-                                "VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s)")
-                    now = time.strftime('%Y-%m-%d %H:%M:%S')
-                    data_bedriftmany.append((row["orgnr"], row["navn"],
-                                    row["forretningsadr"], row["forradrpostnr"],
-                                    row["avvikling"], row["konkurs"],
-                                    row["tvangsavvikling"], row["sektorkode"],
-                                    row["nkode1"], "N", now,))
-                    send_mail(row["orgnr"])
+                    else:
+                        add_bedrift = ("INSERT INTO bedrifter "
+                                    "(orgnr, navn, addresse, postnummer, avvikling, konkurs, tvangsavvikling, sektorkode, nkode1, tidligerekonk, sistoppdatert)"
+                                    "VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s)")
+                        now = time.strftime('%Y-%m-%d %H:%M:%S')
+                        data_bedriftmany.append((row["orgnr"], row["navn"],
+                                        row["forretningsadr"], row["forradrpostnr"],
+                                        row["avvikling"], row["konkurs"],
+                                        row["tvangsavvikling"], row["sektorkode"],
+                                        row["nkode1"], "N", now,))
+                        send_mail(row["orgnr"])
 
 
         cursor.executemany(add_bedrift, data_bedriftmany)
