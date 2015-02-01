@@ -18,9 +18,9 @@ nn = {"konkurs": 0,
 
 statuser = ["tvansavvikling","avvikling","konkurs"]
 
-cnx = mysql.connector.connect(user='konkurs', database='konkurs',
-                              password="abcdef1234",
-                              host="188.166.48.220")
+cnx = mysql.connector.connect(user=config.db_user, database='konkurs',
+                              password=config.db_pw,
+                              host="localhost")
 cursor = cnx.cursor()
 
 
@@ -49,6 +49,7 @@ def update_database():
     with open("tmp/enhetsregisteret", newline="") as f:
         enhetsreader = csv.DictReader(f, delimiter=";", quotechar="\"")
         data_bedriftmany = []
+        add_bedrift = ""
         for row in enhetsreader:
             if "J" in (row["konkurs"], row["tvangsavvikling"], row["avvikling"]):
                 if row["konkurs"] == "J":
@@ -79,17 +80,17 @@ def update_database():
                         send_mail(row["orgnr"])
 
 
-                    else:
-                        add_bedrift = ("INSERT INTO bedrifter "
-                                    "(orgnr, navn, addresse, postnummer, avvikling, konkurs, tvangsavvikling, sektorkode, nkode1, tidligerekonk, sistoppdatert)"
-                                    "VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s)")
-                        now = time.strftime('%Y-%m-%d %H:%M:%S')
-                        data_bedriftmany.append((row["orgnr"], row["navn"],
-                                        row["forretningsadr"], row["forradrpostnr"],
-                                        row["avvikling"], row["konkurs"],
-                                        row["tvangsavvikling"], row["sektorkode"],
-                                        row["nkode1"], "N", now,))
-                        send_mail(row["orgnr"])
+                else:
+                    add_bedrift = ("INSERT INTO bedrifter "
+                                "(orgnr, navn, addresse, postnummer, avvikling, konkurs, tvangsavvikling, sektorkode, nkode1, tidligerekonk, sistoppdatert)"
+                                "VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s)")
+                    now = time.strftime('%Y-%m-%d %H:%M:%S')
+                    data_bedriftmany.append((row["orgnr"], row["navn"],
+                                    row["forretningsadr"], row["forradrpostnr"],
+                                    row["avvikling"], row["konkurs"],
+                                    row["tvangsavvikling"], row["sektorkode"],
+                                    row["nkode1"], "N", now,))
+                    send_mail(row["orgnr"])
 
 
         cursor.executemany(add_bedrift, data_bedriftmany)
