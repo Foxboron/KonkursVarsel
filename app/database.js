@@ -116,7 +116,7 @@ var addUser = function (user,callback) {
  			});
  		}
 
-var deleteEnhet = function(userId, orgnr, callback){
+var deleteUserEnhet = function(userId, orgnr, callback){
 	connection.query('DELETE * FROM subs WHERE bruker_id = ? and orgnr_id = ? ', userId,orgnr, function (err,res){
 		if(err){
 			callback(err);
@@ -169,4 +169,5 @@ exports = module.exports = {
 	'getEnhet': getEnhet,
 	'getEnheter': getEnheter,
 	'getUserEnheter':getUserEnheter,
+	'deleteUserEnhet':deleteUserEnhet,
 };

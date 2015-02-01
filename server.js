@@ -13,13 +13,10 @@ var GitHubStrategy = require('passport-github').Strategy;
 var MemoryStore = session.MemoryStore;
 //app.use(express.static(__dirname + '/public'));
 
-//app.use(morgan('dev'));
-
-//app.use(bodyParser.urlencoded({'extended':'true'}));
-
-//app.use(bodyParser.json());
-
-//app.use(bodyParser.json({ type: 'application/vnd.api+json'}));
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({'extended':'true'}));
+app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json'}));
 
 
 passport.serializeUser(function(user, done) {
@@ -104,8 +101,10 @@ app.get('/api/me', ensureAuthenticated,routes.getUser);
 app.get('/api/dbenhet/:orgnr',ensureAuthenticated, routes.dbenhet);
 
 //app.post('/api/me',routes.addUser);
+app.delete('/api/org/:orgnr',ensureAuthenticated, routes.deleteUserEnhet);
 app.get('/api/org/:orgnr',ensureAuthenticated,routes.addEnhet);
 app.get('/api/org',ensureAuthenticated,routes.getUserEnheter);
+
 
 app.listen(8080);
 console.log("App listening to port 8080");

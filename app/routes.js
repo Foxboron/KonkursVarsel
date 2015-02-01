@@ -59,6 +59,19 @@ var addEnhet = function (req, res) {
 	});
 }
 
+var deleteUserEnhet = function (req, res) {
+	var orgnr = req.params.orgnr;
+	database.deleteUserEnhet(req.session.user.id,orgnr, function (error,result) {
+		if(error) {
+			res.writeHead(500, {'Content-Type': 'text/plain'});
+			res.end(error.message);
+		} else {
+			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.end(JSON.stringify(result));
+		}
+	});
+}
+
 var getDbEnhet = function (req, res) {
 	var orgnr = req.params.orgnr;
 	database.getEnhet(orgnr,function (error,result) {
@@ -106,4 +119,5 @@ exports = module.exports = {
 	'dbenhet': getDbEnhet,
 	'dbenheter': getDbEnheter,
 	'getUserEnheter':getUserEnheter,
+	'deleteUserEnhet': deleteUserEnhet,
 }
