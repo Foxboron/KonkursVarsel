@@ -32,7 +32,7 @@ passport.deserializeUser(function(obj, done) {
 
 
 app.use(cookieParser('cookie_secret'));
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000000000 }}))
 
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).

@@ -21,7 +21,7 @@ var getEnhet = function(req, res) {
 };
 
 var getUser = function (req, res) {
-  	var exId = 'github:' + req.user._json.id;
+  	var exId = 'github:' + req.user.id;
 	database.getUser(exId,function(error,result) {
 		if(error) {
 			res.writeHead(500, {'Content-Type': 'text/plain'});
