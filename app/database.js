@@ -1,7 +1,7 @@
 var mysql      = require('mysql');
 var async = require('async');
 var api = require('./api');
-var config = require('./app/config');
+var config = require('./config');
 var connection = mysql.createConnection({
   host     : config.dbHost,
   user     : config.dbUser,

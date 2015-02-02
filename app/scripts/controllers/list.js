@@ -36,6 +36,7 @@ angular.module('konkursApp')
 
     $scope.delete = function (item) {
       OrgResource.delete({identifier: item.orgnr});
-      $scope.updateOrgs();
+      setTimeout(function() { $scope.updateOrgs(); }, 500);
+      // $scope.updateOrgs();
     };
   });
